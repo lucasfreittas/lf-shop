@@ -26,9 +26,11 @@ export const globalStyles = globalCss({
         border: 'none',
         outline: 'none',
         transition: 'all 0.1s ease-in-out',
+        
 
         '&:hover': {
           cursor: 'pointer',
+          filter: 'brightness(1.2)',
         },
 
         '&:active': {
