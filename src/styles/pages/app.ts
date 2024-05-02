@@ -1,4 +1,5 @@
 import { styled } from "..";
+import * as Dialog from '@radix-ui/react-dialog'
 
 export const Container = styled('main', {
     display: 'flex',
@@ -26,4 +27,10 @@ export const Header = styled('header', {
         borderRadius: 6,
         color: '$gray-500',
     },
+});
+
+export const CartSideSheet = styled(Dialog.Content, {
+    width: '50px',
+    height: '50px',
+    backgroundColor: 'red',
 });

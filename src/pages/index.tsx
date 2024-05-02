@@ -1,9 +1,6 @@
 import { ArrowContainer, HomeContainer, KeenSliderContainer, ProductCard } from "@/styles/pages/home";
 import Image from "next/image";
 import shirt1 from '../assets/Shirt-1.png';
-import shirt2 from '../assets/Shirt-2.png';
-import shirt3 from '../assets/Shirt-3.png';
-import shirt4 from '../assets/Shirt-4.png';
 import { Tote } from "@phosphor-icons/react";
 
 import 'keen-slider/keen-slider.min.css'
@@ -34,6 +31,7 @@ export default function Home(){
     const disabled = props.disabled ? " arrow--disabled" : ""
     return (
       <ArrowContainer>
+        <div></div>
         <svg
           onClick={props.onClick}
           className={`arrow ${

@@ -2,6 +2,7 @@ import { styled } from "..";
 
 export const HomeContainer = styled('section', {
     display: 'flex',
+    flexDirection: 'row',
     height: 656,
     width: '100%',
     maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
@@ -13,10 +14,17 @@ export const HomeContainer = styled('section', {
 export const ArrowContainer = styled('div', {
     height: '100%',
     width: 40,
-    background: 'transparent',
-    overflow: 'hidden',
-    boxShadow: '-10px 0px 10px -5px rgba(0, 0, 0, 0.5)',
     zIndex: 10,
+    position: 'absolute',
+    right: 0,
+
+    div: {
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
+        background: 'black',
+        filter: 'blur(40px)',
+    },
 
     svg:{
         fill: 'white',
@@ -28,13 +36,7 @@ export const ArrowContainer = styled('div', {
 })
 
 export const KeenSliderContainer = styled('div', {
-    display: 'flex',
-    height: 656,
-    width: '100%',
-    maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
-    marginLeft: 'auto',
-    position: 'relative',
-    background: 'blue',
+
 });
 
 export const ProductCard = styled('div', {
