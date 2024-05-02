@@ -3,7 +3,8 @@ import { CartSideSheet, Container, Header } from "@/styles/pages/app";
 import type { AppProps } from "next/app";
 
 import Image from "next/image";
-import lfLogo from '../assets/lf-logo.svg'
+import lfLogo from '../assets/lf-logo.svg';
+import shirt1 from '../assets/Shirt-1.png';
 
 import { Tote } from '@phosphor-icons/react'
 
@@ -25,10 +26,33 @@ export default function App({ Component, pageProps }: AppProps) {
             <Dialog.Portal>
               <Dialog.Overlay />
               <CartSideSheet>
-                <Dialog.Title>Teste</Dialog.Title>
+
                 <Dialog.Close>
                   <span>x</span>
                 </Dialog.Close>
+
+                <Dialog.Title>Teste</Dialog.Title>
+
+                <div>
+                  <div>
+                    <Image src={shirt1} width={94} height={94} alt=""/>
+                  </div>
+                  <div>
+                    <h1>Camiseta Beyond the Limits</h1>
+                    <h2>R$ 79,90</h2>
+                    <button>Remover</button>
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                    <p>Quantidade</p> <span>3 itens</span>
+                  </div>
+                  <div>
+                    <p>Valor Total</p> <span>R$ 270,00</span>
+                  </div>
+                  <button>Finalizar Compra</button>
+                </div>
               </CartSideSheet>
             </Dialog.Portal>
           </Dialog.Root>
