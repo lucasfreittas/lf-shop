@@ -1,3 +1,4 @@
+import { keyframes } from "@stitches/react";
 import { styled } from "..";
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -29,8 +30,175 @@ export const Header = styled('header', {
     },
 });
 
+const slideIn  = keyframes({
+    from: {
+        transform: 'translateX(100%)',
+    },
+    to: {
+        transform: 'translateX(0)',
+    },
+  });
+
+  const slideOut  = keyframes({
+    from: {
+        transform: 'translateX(0)',
+    },
+    to: {
+        transform: 'translateX(100%)',
+    },
+  });
+  
+
 export const CartSideSheet = styled(Dialog.Content, {
-    width: '50px',
-    height: '50px',
-    backgroundColor: 'red',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    width: '48rem',
+    height: '100vh',
+    zIndex: 10000,
+    backgroundColor: '$gray-700',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    padding: '2.8rem',
+  
+    '&[data-state="open"]': {
+        animation: `${slideIn} 400ms ease-out`,
+    },
+
+    '&[data-state="closed"]': {
+        animation: `${slideOut} 400ms ease-out`,
+    },
+
+});
+
+
+
+export const CloseButton = styled(Dialog.Close, {
+    display: 'flex',
+    background: 'none',
+    color: '$gray-500',
+
+});
+
+export const SideSheetContent = styled('div', {
+    width: '100%',
+    height: '100%',
+    padding: '2.4rem',
+
+    [`.radixTitle`]: {
+        fontSize: '$md',
+        lineHeight: '160%',
+        fontWeight: 'bold',
+        color: '$gray-100',
+        marginBottom: '3.2rem',
+    },
+});
+
+export const SideSheetProductContainer = styled('div', {
+    display: 'flex',
+    width: '100%',
+    gap: '2rem',
+
+    [`.imageContainer`]: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '15rem',
+        height: '9.3rem',
+        background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
+        borderRadius: 8,
+    },
+    
+    [`.textContainer`]: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+
+        h1: {
+            fontSize: '$sl',
+            fontWeight: 'normal',
+            lineHeight: '160%',
+            color: '$gray-300',
+        },
+
+        h2: {
+            fontSize: '$sl',
+            fontWeight: 'bold',
+            lineHeight: '160%',
+            color: '$gray-100',
+            marginBottom: '0.8rem',
+        },
+
+        button: {
+            background: 'none',
+            fontSize: '$sl',
+            lineHeight: '160%',
+            fontWeight: 'bold',
+            color: '$green-500',
+            width: 'fit-content'
+        },
+    },
+});
+
+export const SideSheetTotal = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    padding: '2.4rem',
+
+    [`.amountContainer`]: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+
+        p: {
+            fontSize: '1.6rem',
+            lineHeight: '160%',
+            fontWeight: 'normal',
+            color: '$gray-100',
+        },
+
+        span: {
+            fontSize: '1.8rem',
+            lineHeight: '160%',
+            fontWeight: 'normal',
+            color: '$gray-300',
+        },
+    },
+
+    [`.priceContainer`]: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+
+        p: {
+            fontSize: '1.8rem',
+            lineHeight: '160%',
+            fontWeight: 'bold',
+            color: '$gray-100',
+        },
+
+        span: {
+            fontSize: '2.4rem',
+            lineHeight: '160%',
+            fontWeight: 'bold',
+            color: '$gray-100',
+        },
+    },
+
+    button: {
+        height: '6.9rem',
+        backgroundColor: '$green-500',
+        color: 'white',
+        fontSize: '$sl',
+        fontWeight: 'bold',
+        lineHeight: '160%',
+        borderRadius: 8,
+        marginTop: '5.7rem',
+
+        '&:active': {
+            transform: 'scale(0.97)'
+          }
+    },
 });

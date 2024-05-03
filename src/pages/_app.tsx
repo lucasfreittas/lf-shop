@@ -1,12 +1,12 @@
 import { globalStyles } from "@/styles/global";
-import { CartSideSheet, Container, Header } from "@/styles/pages/app";
+import { CartSideSheet, CloseButton, Container, Header, SideSheetContent, SideSheetProductContainer, SideSheetTotal } from "@/styles/pages/app";
 import type { AppProps } from "next/app";
 
 import Image from "next/image";
 import lfLogo from '../assets/lf-logo.svg';
 import shirt1 from '../assets/Shirt-1.png';
 
-import { Tote } from '@phosphor-icons/react'
+import { Tote, X } from '@phosphor-icons/react'
 
 import * as Dialog from '@radix-ui/react-dialog';
 
@@ -24,35 +24,36 @@ export default function App({ Component, pageProps }: AppProps) {
               <button><Tote size={24}/></button>
             </Dialog.Trigger>
             <Dialog.Portal>
-              <Dialog.Overlay />
               <CartSideSheet>
 
-                <Dialog.Close>
-                  <span>x</span>
-                </Dialog.Close>
+              <CloseButton>
+                <X size={24} />
+              </CloseButton>
+              
+                <SideSheetContent>
+                  <Dialog.Title className="radixTitle">Teste</Dialog.Title>
+                  <SideSheetProductContainer>
+                    <div className="imageContainer">
+                      <Image src={shirt1} width={94} height={94} alt=""/>
+                    </div>
 
-                <Dialog.Title>Teste</Dialog.Title>
+                    <div className="textContainer">
+                      <h1>Camiseta Beyond the Limits</h1>
+                      <h2>R$ 79,90</h2>
+                      <button>Remover</button>
+                    </div>      
+                  </SideSheetProductContainer>
+                </SideSheetContent>
 
-                <div>
-                  <div>
-                    <Image src={shirt1} width={94} height={94} alt=""/>
-                  </div>
-                  <div>
-                    <h1>Camiseta Beyond the Limits</h1>
-                    <h2>R$ 79,90</h2>
-                    <button>Remover</button>
-                  </div>
-                </div>
-
-                <div>
-                  <div>
+                <SideSheetTotal>
+                  <div className="amountContainer">
                     <p>Quantidade</p> <span>3 itens</span>
                   </div>
-                  <div>
+                  <div className="priceContainer">
                     <p>Valor Total</p> <span>R$ 270,00</span>
                   </div>
                   <button>Finalizar Compra</button>
-                </div>
+                </SideSheetTotal>
               </CartSideSheet>
             </Dialog.Portal>
           </Dialog.Root>
