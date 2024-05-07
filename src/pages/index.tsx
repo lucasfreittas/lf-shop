@@ -2,17 +2,17 @@ import { ArrowContainer, HomeContainer, KeenSliderContainer, ProductCard } from 
 import Image from "next/image";
 import Link from "next/link";
 
-import shirt1 from '../assets/Shirt-1.png';
 import { Tote } from "@phosphor-icons/react";
 
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 import { useState } from "react";
 
-
 import { GetServerSideProps, GetStaticProps } from "next";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
+
+import { useCart } from "@/context/Cart";
 
 
 
@@ -27,6 +27,19 @@ interface HomeProps {
 
 
 export default function Home({ products }: HomeProps){
+
+  const {addProductToCart} = useCart();
+
+  function handleAddProduct(){
+    const newProduct = {
+      id: 'teste',
+      name: 'oi',
+      imageUrl: 'eumesmo',
+      price: 2,
+    }
+    addProductToCart(newProduct);
+
+  };
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [loaded, setLoaded] = useState(false)
@@ -88,7 +101,7 @@ export default function Home({ products }: HomeProps){
                       <p>{product.price}</p> 
                     </div>
                     
-                    <button><Tote size={32}/></button>
+                    <button onClick={handleAddProduct}><Tote size={32}/></button>
                   </footer>
                 </ProductCard>
               )
@@ -112,7 +125,7 @@ export default function Home({ products }: HomeProps){
   )
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 
   const response = await stripe.products.list({
     expand: ['data.default_price']
@@ -133,12 +146,10 @@ export const getStaticProps: GetStaticProps = async () => {
   })
 
   return {
-
     props: {
       products
     },
 
-    revalidate: 60 * 60 *2
     
   };
 };
