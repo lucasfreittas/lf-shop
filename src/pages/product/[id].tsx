@@ -2,27 +2,78 @@ import { DescriptionContainer, ImageContainer, ProductContainer, TextContainer }
 
 import Image from "next/image"
 import shirt1 from '../../assets/Shirt-1.png';
+import { GetStaticPaths, GetStaticProps } from "next";
+import { stripe } from "@/lib/stripe";
+import Stripe from "stripe";
+import { useRouter } from "next/router";
+
+interface ProductProps {
+    product: {
+      id: string
+      name: string
+      imageUrl: string
+      price: string
+      description: string
+      defaultPriceId: string
+    }
+  }
 
 
-export default function Product(){
+  export default function Product({ product }: ProductProps) {
+    const { isFallback } = useRouter();
+
+    if(isFallback){
+        return <p>Loading...</p>
+    }
+
     return(
         <ProductContainer>
             <ImageContainer>
-                <Image src={shirt1} width={520} height={520} alt=''/>
+                <Image src={product.imageUrl} width={520} height={520} alt=''/>
             </ImageContainer>
             <TextContainer>
                 <DescriptionContainer>
-                    <h1>Camiseta Beoyond the Limits</h1>
-                    <h2>R$ 79,90</h2>
-                    <p>Tempus fermentum eget lacus, quis ante. Potenti sit pharetra, 
-                        ridiculus amet. Bibendum pretium arcu arcu eget viverra at metus donec hendrerit. 
-                        Rhoncus, nunc, eu at ac.
-
-                        At massa, fermentum amet ornare cras tincidunt nunc tincidunt. 
-                        Netus lorem nulla nulla mattis integer velit dictum proin nibh.</p>
+                    <h1>{product.name}</h1>
+                    <h2>{product.price}</h2>
+                    <p>{product.description}</p>
                 </DescriptionContainer>
                 <button>Colocar na sacola</button>
             </TextContainer>
         </ProductContainer>
     )
 };
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    return{
+        paths: [],
+        fallback: true,
+    }
+};
+
+export const getStaticProps: GetStaticProps<any, {id: string}> = async ({ params }) => {
+    const productId = params!.id;
+
+    const product = await stripe.products.retrieve(productId, {
+        expand: ['default_price']
+    });
+
+    const price = product.default_price as Stripe.Price;
+
+    return{
+        props: {
+            product: {
+                id: product.id,
+                name: product.name,
+                imageUrl: product.images[0],
+                price: new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(price.unit_amount! / 100),
+                  description: product.description,
+                  defaultPriceId: price.id
+            }
+        },
+
+        revalidate: 60 * 60 * 2
+    }
+}; 

@@ -1,6 +1,7 @@
 import { globalStyles } from "@/styles/global";
 import { CartSideSheet, CloseButton, Container, Header, SideSheetContent, SideSheetProductContainer, SideSheetTotal } from "@/styles/pages/app";
 import type { AppProps } from "next/app";
+import Link from "next/link";
 
 import Image from "next/image";
 import lfLogo from '../assets/lf-logo.svg';
@@ -18,10 +19,12 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Container>
         <Header>
-          <Image src={lfLogo} width={96} height={52} alt=''/>
+          <Link href='/'>
+            <Image src={lfLogo} width={96} height={52} alt=''/>
+          </Link>
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <button><Tote size={24}/></button>
+              <button><span>1</span><Tote size={24}/></button>
             </Dialog.Trigger>
             <Dialog.Portal>
               <CartSideSheet>
@@ -31,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </CloseButton>
               
                 <SideSheetContent>
-                  <Dialog.Title className="radixTitle">Teste</Dialog.Title>
+                  <Dialog.Title className="radixTitle">Sacola de Compras</Dialog.Title>
                   <SideSheetProductContainer>
                     <div className="imageContainer">
                       <Image src={shirt1} width={94} height={94} alt=""/>

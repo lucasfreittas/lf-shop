@@ -9,6 +9,7 @@ export const Container = styled('main', {
     justifyContent: 'flex-start',
     height: 'calc(100vh - 7rem)',
     width: '100vw',
+    overflow: 'hidden',
 });
 
 export const Header = styled('header', {
@@ -27,6 +28,24 @@ export const Header = styled('header', {
         padding: '1.2rem',
         borderRadius: 6,
         color: '$gray-500',
+        position: 'relative',
+
+        span: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.4rem',
+            fontWeight: 'bold',
+            border: '3px solid $gray-900',
+            position: 'absolute',
+            right: '-25%',
+            top: '-25%',
+            backgroundColor: '$green-500',
+            color: 'white',
+            width: '2.7rem',
+            height: '2.7rem',
+            borderRadius: '100%',
+        }
     },
 });
 
@@ -61,6 +80,8 @@ export const CartSideSheet = styled(Dialog.Content, {
     right: 0,
     top: 0,
     padding: '2.8rem',
+    overflow: 'hidden',
+    boxShadow: '-4px 0px 30px rgba(0, 0, 0, 0.8)',
   
     '&[data-state="open"]': {
         animation: `${slideIn} 400ms ease-out`,
@@ -71,7 +92,6 @@ export const CartSideSheet = styled(Dialog.Content, {
     },
 
 });
-
 
 
 export const CloseButton = styled(Dialog.Close, {

@@ -8,6 +8,7 @@ export const HomeContainer = styled('section', {
     maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
     marginLeft: 'auto',
     position: 'relative',
+    
 
 });
 

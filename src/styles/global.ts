@@ -8,11 +8,13 @@ export const globalStyles = globalCss({
       },
 
       html: {
-        fontSize: '62.5%'
+        fontSize: '62.5%',
+        overflow: 'hidden',
       },
     
       body: {
         backgroundColor: '$gray-900',
+
         color: '$gray100',
         '-webkit-font-smoothing': 'antialiased',
       },
