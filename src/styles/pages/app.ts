@@ -105,6 +105,7 @@ export const SideSheetContent = styled('div', {
     width: '100%',
     height: '100%',
     padding: '2.4rem',
+    overflowY: 'auto',
 
     [`.radixTitle`]: {
         fontSize: '$md',
@@ -119,6 +120,7 @@ export const SideSheetProductContainer = styled('div', {
     display: 'flex',
     width: '100%',
     gap: '2rem',
+    marginBottom: '2.4rem',
 
     [`.imageContainer`]: {
         display: 'flex',

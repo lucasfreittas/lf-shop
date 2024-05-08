@@ -6,17 +6,26 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { useRouter } from "next/router";
+import { useCart } from "@/context/Cart";
 
 interface ProductProps {
     product: {
-      id: string
-      name: string
-      imageUrl: string
-      price: string
-      description: string
+      id: string,
+      name: string,
+      imageUrl: string,
+      price: string,
+      description: string,
       defaultPriceId: string
     }
   }
+
+  interface OneProduct {
+    id: string,
+    name: string,
+    imageUrl: string,
+    price: string,
+    defaultPriceId: string,
+  };
 
 
   export default function Product({ product }: ProductProps) {
@@ -24,7 +33,13 @@ interface ProductProps {
 
     if(isFallback){
         return <p>Loading...</p>
-    }
+    };
+
+    const {addProductToCart} = useCart();
+
+    function handleAddProduct(product: OneProduct){
+      addProductToCart(product);
+    };
 
     return(
         <ProductContainer>
@@ -34,10 +49,10 @@ interface ProductProps {
             <TextContainer>
                 <DescriptionContainer>
                     <h1>{product.name}</h1>
-                    <h2>{product.price}</h2>
+                    <h2>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(parseFloat(product.price))}</h2>
                     <p>{product.description}</p>
                 </DescriptionContainer>
-                <button>Colocar na sacola</button>
+                <button onClick={() => handleAddProduct(product)}>Colocar na sacola</button>
             </TextContainer>
         </ProductContainer>
     )
@@ -64,13 +79,9 @@ export const getStaticProps: GetStaticProps<any, {id: string}> = async ({ params
             product: {
                 id: product.id,
                 name: product.name,
+                description: product.description,
                 imageUrl: product.images[0],
-                price: new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                  }).format(price.unit_amount! / 100),
-                  description: product.description,
-                  defaultPriceId: price.id
+                price: price.unit_amount! / 100
             }
         },
 

@@ -9,7 +9,6 @@ import { Tote, X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog';
 import { CartProvider, useCart } from "@/context/Cart";
 import { useEffect } from "react";
-import { GetServerSideProps } from "next";
 
 globalStyles()
 
@@ -22,10 +21,17 @@ export default function App({ Component, pageProps, router }: AppProps & { route
 }
 
 function AppContent({ Component, pageProps }: AppProps) {
-  const { cart } = useCart();
+  const { cart, removeProductToCart, calcTotalAmount, totalAmount } = useCart();
+
+  function handleRemoveProductToCart(productId: string){
+    removeProductToCart(productId)
+  };
+
 
   useEffect(() => {
-    console.log('Sou o useEffect')
+
+    calcTotalAmount()
+
   }, [cart]);
 
   return (
@@ -37,7 +43,10 @@ function AppContent({ Component, pageProps }: AppProps) {
           </Link>
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <button><span>1</span><Tote size={24}/></button>
+              <button>
+                {cart && (cart.length > 0 ? <span>{cart.length}</span> : null)}
+                <Tote size={24}/>
+              </button>
             </Dialog.Trigger>
             <Dialog.Portal>
               <CartSideSheet>
@@ -50,12 +59,12 @@ function AppContent({ Component, pageProps }: AppProps) {
                     cart.map((product) => (
                       <SideSheetProductContainer key={product.id}>
                         <div className="imageContainer">
-                          <Image src={shirt1} width={94} height={94} alt=""/>
+                          <Image src={product.imageUrl} width={94} height={94} alt=""/>
                         </div>
                         <div className="textContainer">
                           <h1>{product.name}</h1>
-                          <h2>R$ 79,90</h2>
-                          <button>Remover</button>
+                          <h2>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(parseFloat(product.price))}</h2>
+                          <button onClick={() => handleRemoveProductToCart(product.id)}>Remover</button>
                         </div>      
                       </SideSheetProductContainer>
                     ))
@@ -63,10 +72,10 @@ function AppContent({ Component, pageProps }: AppProps) {
                 </SideSheetContent>
                 <SideSheetTotal>
                   <div className="amountContainer">
-                    <p>Quantidade</p> <span>3 itens</span>
+                    <p>Quantidade</p> <span>{`${cart.length} Itens`}</span>
                   </div>
                   <div className="priceContainer">
-                    <p>Valor Total</p> <span>R$ 270,00</span>
+                    <p>Valor Total</p> <span>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(Number(totalAmount))}</span>
                   </div>
                   <button>Finalizar Compra</button>
                 </SideSheetTotal>

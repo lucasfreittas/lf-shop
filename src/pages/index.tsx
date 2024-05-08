@@ -15,30 +15,31 @@ import Stripe from "stripe";
 import { useCart } from "@/context/Cart";
 
 
-
 interface HomeProps {
   products: {
     id: string,
     name: string,
     imageUrl: string,
-    price: number
+    price: string,
+    defaultPriceId: string
   }[]
 }
+
+interface OneProduct {
+  id: string,
+  name: string,
+  imageUrl: string,
+  price: string,
+  defaultPriceId: string
+};
 
 
 export default function Home({ products }: HomeProps){
 
   const {addProductToCart} = useCart();
 
-  function handleAddProduct(){
-    const newProduct = {
-      id: 'teste',
-      name: 'oi',
-      imageUrl: 'eumesmo',
-      price: 2,
-    }
-    addProductToCart(newProduct);
-
+  function handleAddProduct(product: OneProduct){
+    addProductToCart(product);
   };
 
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -98,10 +99,9 @@ export default function Home({ products }: HomeProps){
                   <footer>
                     <div>
                       <span>{product.name}</span>
-                      <p>{product.price}</p> 
-                    </div>
-                    
-                    <button onClick={handleAddProduct}><Tote size={32}/></button>
+                      <p>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(parseFloat(product.price))}</p>
+                    </div>                    
+                    <button onClick={() => handleAddProduct(product)}><Tote size={32}/></button>
                   </footer>
                 </ProductCard>
               )
@@ -138,10 +138,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(price.unit_amount! / 100)
+      price: price.unit_amount! / 100,
+      defaultPriceId: price.id,
     }
   })
 
