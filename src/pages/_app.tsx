@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import Link from "next/link";
 import Image from "next/image";
 import lfLogo from '../assets/lf-logo.svg';
-import shirt1 from '../assets/Shirt-1.png';
+
 import { Tote, X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog';
 import { CartProvider, useCart } from "@/context/Cart";
