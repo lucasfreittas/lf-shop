@@ -1,19 +1,31 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "@/lib/stripe";
 import { useCart } from "@/context/Cart";
+import { CartContext } from "@/context/Cart";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
 
-  const { cart } = useCart();
-  const allPricesIds = cart.map(item => item.defaultPriceId);
+  const { allPricesIds } = req.body;
 
   const successUrl = `${process.env.NEXT_URL}/success`;
   const cancelUrl = `${process.env.NEXT_URL}/`;
 
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed." });
+  };
+
+  if (!allPricesIds) {
+    return res.status(400).json({ error: 'Price not found.' });
+  };
+
+  if (!Array.isArray(allPricesIds)) {
+    return res.status(400).json({ error: 'Prices must be provided as an array.' });
+  };
+
   const lineItems = allPricesIds.map(priceId => ({
     price: priceId,
-    quantity: 1
+    quantity: 1,
   }));
 
   const checkoutSession = await stripe.checkout.sessions.create({

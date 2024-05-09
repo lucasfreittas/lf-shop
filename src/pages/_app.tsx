@@ -9,6 +9,7 @@ import { Tote, X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog';
 import { CartProvider, useCart } from "@/context/Cart";
 import { useEffect } from "react";
+import axios from "axios";
 
 globalStyles()
 
@@ -25,6 +26,22 @@ function AppContent({ Component, pageProps }: AppProps) {
 
   function handleRemoveProductToCart(productId: string){
     removeProductToCart(productId)
+  };
+
+  async function handleCheckoutSession(){
+    const allPricesIds = cart.map(item => item.defaultPriceId)  
+
+    try{
+      const response = await axios.post('/api/checkout', { allPricesIds })
+      
+      const { checkoutUrl } = response.data;
+      window.location.href = checkoutUrl
+
+    } catch(err){
+
+      alert('Falha ao redirecionar ao checkout!')
+
+    }
   };
 
 
@@ -77,7 +94,7 @@ function AppContent({ Component, pageProps }: AppProps) {
                   <div className="priceContainer">
                     <p>Valor Total</p> <span>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(Number(totalAmount))}</span>
                   </div>
-                  <button>Finalizar Compra</button>
+                  <button onClick={handleCheckoutSession}>Finalizar Compra</button>
                 </SideSheetTotal>
               </CartSideSheet>
             </Dialog.Portal>

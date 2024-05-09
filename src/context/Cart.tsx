@@ -24,7 +24,6 @@ export function CartProvider({children}:{children: ReactNode}){
 
     function addProductToCart(productData: ProductType){
         setCart(prevCart => [...prevCart, productData]); 
-        console.log(cart)
     };
 
     function removeProductToCart(productId: string){
